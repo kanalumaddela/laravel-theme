@@ -104,7 +104,7 @@ class themeServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------*/
 
         Blade::extend(static function ($value) {
-            return preg_replace_callback('/\@js\s*\(\s*(\'[^),]*\.js\')(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', static function ($match) {
+            return preg_replace_callback('/@js\s*\(\s*(\'[^),]*\.js\')(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', static function ($match) {
 
                 $p1 = trim($match[1], " \t\n\r\0\x0B\"'");
                 $p2 = trim(empty($match[2]) ? $p1 : $match[2], " \t\n\r\0\x0B\"'");
@@ -112,15 +112,15 @@ class themeServiceProvider extends ServiceProvider
 
                 if (empty($p3)) {
                     return "<?php Asset::script('$p2', theme_url('$p1'));?>";
-                } else {
-                    return "<?php Asset::script('$p2', theme_url('$p1'), '$p3');?>";
                 }
+
+                return "<?php Asset::script('$p2', theme_url('$p1'), '$p3');?>";
 
             }, $value);
         });
 
         Blade::extend(static function ($value) {
-            return preg_replace_callback('/\@jsIn\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/',
+            return preg_replace_callback('/@jsIn\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/',
                 static function ($match) {
 
                     $p1 = trim($match[1], " \t\n\r\0\x0B\"'");
@@ -130,15 +130,15 @@ class themeServiceProvider extends ServiceProvider
 
                     if (empty($p4)) {
                         return "<?php Asset::container('$p1')->script('$p3', theme_url('$p2'));?>";
-                    } else {
-                        return "<?php Asset::container('$p1')->script('$p3', theme_url('$p2'), '$p4');?>";
                     }
+
+                    return "<?php Asset::container('$p1')->script('$p3', theme_url('$p2'), '$p4');?>";
 
                 }, $value);
         });
 
         Blade::extend(static function ($value) {
-            return preg_replace_callback('/\@css\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', static function ($match) {
+            return preg_replace_callback('/@css\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', static function ($match) {
 
                 $p1 = trim($match[1], " \t\n\r\0\x0B\"'");
                 $p2 = trim(empty($match[2]) ? $p1 : $match[2], " \t\n\r\0\x0B\"'");
@@ -146,9 +146,9 @@ class themeServiceProvider extends ServiceProvider
 
                 if (empty($p3)) {
                     return "<?php Asset::style('$p2', theme_url('$p1'));?>";
-                } else {
-                    return "<?php Asset::style('$p2', theme_url('$p1'), '$p3');?>";
                 }
+
+                return "<?php Asset::style('$p2', theme_url('$p1'), '$p3');?>";
 
             }, $value);
         });

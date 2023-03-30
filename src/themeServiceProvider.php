@@ -87,7 +87,9 @@ class themeServiceProvider extends ServiceProvider
         | Register custom Blade Directives
         |--------------------------------------------------------------------------*/
 
-        $this->registerBladeDirectives();
+        if (class_exists(\Orchestra\Asset\AssetServiceProvider::class)) {
+            $this->registerBladeDirectives();
+        }
     }
 
     protected function registerBladeDirectives()
@@ -101,7 +103,7 @@ class themeServiceProvider extends ServiceProvider
         |   @js  (filename, alias, depends-on-alias)
         |--------------------------------------------------------------------------*/
 
-        Blade::extend(function ($value) {
+        Blade::extend(static function ($value) {
             return preg_replace_callback('/\@js\s*\(\s*(\'[^),]*\.js\')(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', static function ($match) {
 
                 $p1 = trim($match[1], " \t\n\r\0\x0B\"'");
@@ -117,9 +119,9 @@ class themeServiceProvider extends ServiceProvider
             }, $value);
         });
 
-        Blade::extend(function ($value) {
+        Blade::extend(static function ($value) {
             return preg_replace_callback('/\@jsIn\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/',
-                function ($match) {
+                static function ($match) {
 
                     $p1 = trim($match[1], " \t\n\r\0\x0B\"'");
                     $p2 = trim($match[2], " \t\n\r\0\x0B\"'");
@@ -135,8 +137,8 @@ class themeServiceProvider extends ServiceProvider
                 }, $value);
         });
 
-        Blade::extend(function ($value) {
-            return preg_replace_callback('/\@css\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', function ($match) {
+        Blade::extend(static function ($value) {
+            return preg_replace_callback('/\@css\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', static function ($match) {
 
                 $p1 = trim($match[1], " \t\n\r\0\x0B\"'");
                 $p2 = trim(empty($match[2]) ? $p1 : $match[2], " \t\n\r\0\x0B\"'");

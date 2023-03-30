@@ -102,7 +102,7 @@ class themeServiceProvider extends ServiceProvider
         |--------------------------------------------------------------------------*/
 
         Blade::extend(function ($value) {
-            return preg_replace_callback('/\@js\s*\(\s*([^),]*)(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', function ($match) {
+            return preg_replace_callback('/\@js\s*\(\s*(\'[^),]*\.js\')(?:,\s*([^),]*))?(?:,\s*([^),]*))?\)/', static function ($match) {
 
                 $p1 = trim($match[1], " \t\n\r\0\x0B\"'");
                 $p2 = trim(empty($match[2]) ? $p1 : $match[2], " \t\n\r\0\x0B\"'");
